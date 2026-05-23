@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hotel Ariston – Sindelfingen</title>
+<link rel="icon" type="image/png" href="logo.png">
+
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:wght@300;400;500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.css">
+<style>
+/* ── Reset & Variables ───────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --olive:#5C5C4D; --olive-lt:#8a8a72; --olive-dk:#3d3d30;
+  --cream:#d4d5bc;     /* Dein Salbeigrün */
+  --cream-dk:#b8b9a1;  /* Perfekt abgestimmtes, dunkleres Salbei für Kontraste */
+  --warm:#8b7355; --warm-lt:#c4a882;
+  --text:#3a3a2e; --text-lt:#4a4a3a; 
+  --white:#fefff2;    /* Dein gewünschtes helles Cremegelb */
+  --border:rgba(92,92,77,0.2);
+  --nav-h:72px;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Jost',sans-serif;font-weight:300;color:var(--text);background:var(--white);overflow-x:hidden;}
+img{display:block;max-width:100%;}
+a{text-decoration:none;color:inherit;}
+
+/* ── Navbar ─────────────────────────────────────────────── */
+#navbar{
+  position:fixed;top:0;left:0;width:100%;z-index:200;
+  height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;
+  padding:0 60px;background:rgba(212, 213, 188, 0.98); /* Hintergrundfarbe #d4d5bc */
+  backdrop-filter:blur(12px);
+  border-bottom: 2px solid #5c5c4d; /* Dein gewünschter Farbton als feiner Trennstrich */
+  transition:box-shadow 0.3s;
+}
+#navbar.scrolled{box-shadow:0 2px 24px rgba(92,92,77,0.15);}
+.nav-logo{font-family:'Libre Baskerville',serif;font-size:18px;letter-spacing:0.12em;text-transform:uppercase;color:var(--text); display:flex; align-items:center; gap:12px;}
+.nav-logo img {height: 36px; width: auto;}
+.nav-links{display:flex;gap:36px;list-style:none;}
+.nav-links a{font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text);transition:color 0.2s;font-weight:400;}
+.nav-links a:hover{color:var(--olive);}
+.nav-cta{background:var(--olive);color:var(--white)!important;padding:9px 22px!important;letter-spacing:0.12em!important;transition:background 0.2s!important;}
+.nav-cta:hover{background:var(--olive-dk)!important;color:var(--white)!important;}
+
+/* ── Hero ───────────────────────────────────────────────── */
+#hero{height:100vh;min-height:600px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+#hero-bg{position:absolute;inset:0;background-image:url('https://static.wixstatic.com/media/e5bfc3_7b4815f9531e4a128d153fd43f12afd4~mv2.jpg');background-size:cover;background-position:center;}
+#hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(160deg,rgba(58,58,46,0.3) 0%,rgba(58,58,46,0.6) 100%);}
+#hero-content{position:relative;z-index:1;text-align:center;color:#fdfcf8;padding:0 40px;}
+.hero-eyebrow{font-size:11px;letter-spacing:0.3em;text-transform:uppercase;opacity:0.75;margin-bottom:20px;}
+#hero-content h1{font-family:'Libre Baskerville',serif;font-weight:400;font-size:clamp(38px,6vw,76px);letter-spacing:0.03em;line-height:1.12;margin-bottom:36px;}
+.hero-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+.hero-cta{display:inline-block;padding:14px 36px;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;transition:all 0.3s;}
+.hero-cta.primary{background:var(--white);color:var(--olive);}
+.hero-cta.primary:hover{background:var(--cream);}
+.hero-cta.secondary{border:1px solid rgba(253,252,248,0.55);color:var(--white);}
+.hero-cta.secondary:hover{background:rgba(253,252,248,0.12);border-color:var(--white);}
+
+/* ── Section shell ──────────────────────────────────────── */
+.section-head{text-align:center;padding:88px 60px 52px;}
+.eyebrow{font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:var(--warm);margin-bottom:14px;}
+.section-head h2{font-family:'Libre Baskerville',serif;font-weight:400;font-size:clamp(28px,4vw,46px);color:var(--olive);letter-spacing:0.02em;}
+
+//* ── 360° VIRTUAL TOUR ──────────────────────────────────── */
+#tour { 
+  background: var(--white); 
+  padding: 80px 0 100px 0; 
+}
+.tour-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px; 
+}
+.tour-frame-wrap {
+  width: 100%;
+  height: 70vh;
+  min-height: 500px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 15px 40px rgba(0,0,0,0.15); 
+}
+.tour-frame-wrap iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+.tour-badge { 
+  display: inline-flex; align-items: center; gap: 8px; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--warm); background: rgba(139,115,85,0.1); padding: 8px 16px; border-radius: 20px; margin-top: 20px; font-weight: 500; 
+}
+.tour-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--warm); animation: pulse 2s infinite; }
+
+/* ── Zimmer ─────────────────────────────────────────────── */
+#zimmer{background:var(--cream);}
+.zimmer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border-top:1px solid var(--border);}
+.zimmer-card{background:var(--white);overflow:hidden;display:flex;flex-direction:column;}
+.zimmer-img-wrap{overflow:hidden;}
+.zimmer-img{width:100%;aspect-ratio:4/3;object-fit:cover;transition:transform 0.6s ease, filter 0.3s ease;}
+.zimmer-card:hover .zimmer-img{transform:scale(1.04);}
+.zimmer-body{padding:24px 28px 28px;display:flex;flex-direction:column;flex:1;gap:10px;}
+.zimmer-body h3{font-family:'Libre Baskerville',serif;font-weight:400;font-size:18px;color:var(--olive);letter-spacing:0.02em;}
+.zimmer-body p{font-size:13.5px;line-height:1.72;color:var(--text-lt);flex:1;}
+.zimmer-btn{margin-top:4px;align-self:flex-start;display:inline-block;border:1px solid var(--olive);color:var(--olive);padding:9px 20px;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;background:transparent;transition:all 0.25s;font-family:'Jost',sans-serif;}
+.zimmer-btn:hover{background:var(--olive);color:var(--white);}
+
+/* ── Über uns ───────────────────────────────────────────── */
+#ueber{background:var(--white);}
+.ueber-wrap{max-width:1100px;margin:0 auto;padding:0 60px 96px;display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:stretch;}
+.ueber-img-wrap{display:flex; overflow: hidden;}
+.ueber-img{width:100%;height:100%;object-fit:cover;min-height:480px; transition: transform 0.6s ease, filter 0.3s ease;}
+.ueber-img:hover{transform: scale(1.02);}
+.ueber-content{display:flex;flex-direction:column;justify-content:center;}
+.ueber-intro{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:20px;line-height:1.8;color:var(--text);margin-bottom:32px;padding-bottom:28px;border-bottom:1px solid var(--border);}
+.ueber-facts{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px 14px;margin-bottom:28px;}
+.fact-item{display:flex;flex-direction:column;gap:4px;}
+.fact-label{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--warm);font-weight:500;}
+.fact-value{font-size:13px;line-height:1.45;color:var(--text);}
+.ueber-location{border-top:1px solid var(--border);padding-top:24px;display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.loc-block{display:flex;flex-direction:column;gap:9px;}
+.loc-label{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--warm);font-weight:500;}
+.loc-tags{display:flex;flex-direction:column;gap:0;}
+.loc-tag{font-size:13px;color:var(--text);padding:6px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:9px;line-height:1.4;}
+.loc-tag::before{content:'';width:4px;height:4px;border-radius:50%;background:var(--warm);flex-shrink:0;}
+.loc-tag:last-child{border-bottom:none;}
+
+/* ── Kontakt ────────────────────────────────────────────── */
+#kontakt{background:var(--olive);}
+.kontakt-wrap{max-width:1100px;margin:0 auto;padding:88px 60px;display:grid;grid-template-columns:340px 1fr;gap:80px;align-items:start;}
+.kontakt-info .eyebrow{color:rgba(244,241,234,0.45);margin-bottom:14px;}
+.kontakt-info h2{font-family:'Libre Baskerville',serif;font-weight:400;font-size:clamp(22px,3vw,34px);color:var(--cream);line-height:1.25;margin-bottom:36px;}
+.kd-list{display:flex;flex-direction:column;gap:22px;}
+.kd-item{display:flex;flex-direction:column;gap:4px;}
+.kd-label{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(244,241,234,0.4);}
+.kd-value{font-size:14px;color:var(--cream);line-height:1.55;}
+.kd-value a{color:var(--cream);transition:opacity 0.2s;}
+.kd-value a:hover{opacity:0.65;}
+
+/* ── Booking Form ───────────────────────────────────────── */
+.booking-form{display:flex;flex-direction:column;gap:0;}
+.form-steps{display:flex;gap:0;margin-bottom:32px;border-bottom:1px solid rgba(244,241,234,0.15);}
+.step-tab{flex:1;padding:14px 0;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(244,241,234,0.35);text-align:center;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all 0.2s;}
+.step-tab.active{color:var(--cream);border-bottom-color:var(--warm-lt);}
+.form-section{display:none;flex-direction:column;gap:18px;animation:fadeIn 0.3s ease;}
+.form-section.active{display:flex;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.fg{display:flex;flex-direction:column;gap:7px;}
+.fg label{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(244,241,234,0.45);}
+.fg input,.fg select,.fg textarea{ background:rgba(244,241,234,0.07);border:1px solid rgba(244,241,234,0.18); color:var(--cream);font-family:'Jost',sans-serif;font-size:14px;font-weight:300; padding:13px 15px;outline:none;width:100%;transition:all 0.2s; -webkit-appearance:none;appearance:none; }
+.fg select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c4a882' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;}
+.fg select option{background:var(--olive-dk);color:var(--cream);}
+.fg input::placeholder,.fg textarea::placeholder{color:rgba(244,241,234,0.25);}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:rgba(244,241,234,0.45);background:rgba(244,241,234,0.11);}
+.fg textarea{resize:vertical;min-height:110px;}
+.guest-counter{display:flex;align-items:center;gap:16px;background:rgba(244,241,234,0.07);border:1px solid rgba(244,241,234,0.18);padding:10px 15px;}
+.gc-btn{width:32px;height:32px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(244,241,234,0.3);background:transparent;color:var(--cream);font-size:18px;cursor:pointer;transition:all 0.2s;font-family:'Jost',sans-serif;line-height:1;}
+.gc-btn:hover{background:rgba(244,241,234,0.12);}
+.gc-val{font-size:18px;color:var(--cream);min-width:24px;text-align:center;}
+.gc-label{font-size:13px;color:rgba(244,241,234,0.5);margin-left:auto;}
+.room-chips{display:flex;flex-wrap:wrap;gap:8px;}
+.room-chip{padding:8px 16px;border:1px solid rgba(244,241,234,0.2);color:rgba(244,241,234,0.5);font-size:12px;letter-spacing:0.06em;cursor:pointer;transition:all 0.2s;font-family:'Jost',sans-serif;background:transparent;}
+.room-chip.selected{border-color:var(--warm-lt);color:var(--warm-lt);background:rgba(196,168,130,0.08);}
+.form-nav{display:flex;align-items:center;justify-content:space-between;margin-top:24px;}
+.btn-back{background:transparent;border:none;color:rgba(244,241,234,0.4);font-size:12px;letter-spacing:0.12em;text-transform:uppercase;cursor:pointer;font-family:'Jost',sans-serif;transition:color 0.2s;}
+.btn-back:hover{color:var(--cream);}
+.btn-next,.btn-send{background:var(--warm);border:none;color:var(--white);padding:14px 36px;font-family:'Jost',sans-serif;font-size:12px;letter-spacing:0.16em;text-transform:uppercase;cursor:pointer;transition:background 0.25s;}
+.btn-next:hover,.btn-send:hover{background:var(--warm-lt);}
+.btn-send:disabled{opacity:0.5;cursor:not-allowed;}
+.step-indicator{font-size:11px;letter-spacing:0.08em;color:rgba(244,241,234,0.35);}
+.flatpickr-calendar{font-family:'Jost',sans-serif!important;background:var(--olive-dk)!important;border:1px solid rgba(244,241,234,0.15)!important;box-shadow:0 16px 48px rgba(0,0,0,0.3)!important;}
+.flatpickr-day{color:var(--cream)!important;}
+.flatpickr-day.selected,.flatpickr-day.startRange,.flatpickr-day.endRange{background:var(--warm)!important;border-color:var(--warm)!important;}
+.flatpickr-day.inRange{background:rgba(139,115,85,0.3)!important;border-color:transparent!important;}
+.flatpickr-day:hover{background:rgba(244,241,234,0.1)!important;}
+.flatpickr-day.flatpickr-disabled{color:rgba(244,241,234,0.2)!important;}
+.flatpickr-month,.flatpickr-weekday{color:var(--cream)!important;background:var(--olive-dk)!important;fill:var(--cream)!important;}
+.flatpickr-current-month{color:var(--cream)!important;}
+.flatpickr-prev-month svg,.flatpickr-next-month svg{fill:var(--cream)!important;}
+
+/* ── Footer ─────────────────────────────────────────────── */
+#footer{background:var(--cream-dk);}
+.footer-logo-bar{text-align:center;padding:60px 60px 48px;border-bottom:1px solid var(--border);overflow:hidden;}
+.footer-logo-text{font-family:'Libre Baskerville',serif;font-weight:400;font-size:clamp(36px,7vw,96px);letter-spacing:0.08em;text-transform:uppercase;color:var(--olive);line-height:1;display:block;white-space:nowrap;}
+.footer-bottom{max-width:1100px;margin:0 auto;padding:32px 60px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+.footer-social{display:flex;gap:14px;}
+.footer-social a{width:36px;height:36px;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);border-radius:50%;transition:all 0.2s;}
+.footer-social a:hover{border-color:var(--olive);background:rgba(92,92,77,0.06);}
+.footer-social img{width:15px;height:15px;opacity:0.55;}
+.footer-links{display:flex;gap:24px;}
+.footer-links a{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-lt);transition:color 0.2s; cursor: pointer;}
+.footer-links a:hover{color:var(--olive);}
+.footer-copy{font-size:12px;color:var(--text-lt);}
+
+/* ── Toast & Modals (Pop-ups) ───────────────────────────── */
+#toast{position:fixed;bottom:40px;left:50%;transform:translateX(-50%) translateY(20px);background:#2d5a3d;color:#fff;padding:16px 32px;font-size:14px;letter-spacing:0.03em;box-shadow:0 8px 30px rgba(0,0,0,0.15);opacity:0;transition:opacity 0.4s,transform 0.4s;z-index:9999;pointer-events:none;white-space:nowrap;}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+.modal { display: none; position: fixed; z-index: 99999; padding-top: 5vh; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.85); backdrop-filter: blur(5px); }
+.modal-content { margin: auto; display: block; max-width: 90%; max-height: 85vh; object-fit: contain; border-radius: 6px; box-shadow: 0 15px 40px rgba(0,0,0,0.5); }
+.modal-close { position: absolute; top: 15px; right: 35px; color: #fff; font-size: 40px; font-weight: bold; cursor: pointer; transition: 0.3s; z-index: 100000; }
+.modal-close:hover { color: var(--warm-lt); }
+.clickable-img { cursor: zoom-in; }
+.clickable-img:hover { filter: brightness(0.9); }
+.iframe-container { width: 90%; max-width: 1000px; height: 85vh; margin: 0 auto; background: var(--white); border-radius: 8px; overflow: hidden; position: relative; box-shadow: 0 15px 40px rgba(0,0,0,0.5); }
+#modal-iframe { width: 100%; height: 100%; border: none; }
+
+/* ── Responsive ─────────────────────────────────────────── */
+@media(max-width:960px){
+  #navbar{padding:0 24px;} .nav-links{gap:20px;}
+  .ueber-wrap{grid-template-columns:1fr;gap:36px;padding:0 24px 64px;}
+  .ueber-img{min-height:280px;}
+  .ueber-facts{grid-template-columns:1fr 1fr;}
+  .kontakt-wrap{grid-template-columns:1fr;gap:40px;padding:64px 24px;}
+  .zimmer-grid{grid-template-columns:1fr 1fr;}
+  .section-head{padding:64px 24px 40px;}
+  .footer-bottom{padding:28px 24px;}
+  .footer-logo-bar{padding:48px 24px 36px;}
+}
+@media(max-width:768px){
+  .tour-overlay { bottom: 20px; left: 20px; right: 20px; max-width: none; padding: 20px; }
+  .tour-overlay h2 { font-size: 22px; }
+}
+@media(max-width:600px){
+  .zimmer-grid{grid-template-columns:1fr;}
+  .form-row{grid-template-columns:1fr;}
+  .ueber-location,.ueber-facts{grid-template-columns:1fr 1fr;}
+  .nav-links{display:none;}
+  .hero-btns{flex-direction:column;align-items:center;}
+}
+</style>
+</head>
+<body>
+
+<div id="image-modal" class="modal">
+  <span class="modal-close" onclick="closeImageModal()">&times;</span>
+  <img class="modal-content" id="modal-img">
+</div>
+
+<div id="iframe-modal" class="modal">
+  <span class="modal-close" onclick="closeIframeModal()">&times;</span>
+  <div class="iframe-container">
+    <iframe id="modal-iframe" src=""></iframe>
+  </div>
+</div>
+
+<nav id="navbar">
+  <div class="nav-logo">
+    <img src="logo.png" alt="Hotel Ariston Logo">
+    Hotel Ariston
+  </div>
+  <ul class="nav-links">
+    <li><a href="#hero">Home</a></li>
+    <li><a href="#tour">360° Tour</a></li>
+    <li><a href="#zimmer">Zimmer</a></li>
+    <li><a href="#ueber">Über uns</a></li>
+    <li><a href="#kontakt" class="nav-cta">Anfrage</a></li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <div id="hero-bg"></div>
+  <div id="hero-content">
+    <p class="hero-eyebrow">Sindelfingen · Deutschland</p>
+    <h1>Willkommen im<br>Hotel Ariston</h1>
+    <div class="hero-btns">
+      <a href="#kontakt" class="hero-cta primary">Zimmer anfragen</a>
+      <a href="#tour" class="hero-cta secondary">360° Tour entdecken</a>
+    </div>
+  </div>
+</section>
+
+<section id="tour">
+  <div class="section-head">
+    <p class="eyebrow">Virtuell entdecken</p>
+    <h2>Erkunden Sie das Hotel Ariston</h2>
+    <p style="max-width: 600px; margin: 0 auto; font-size: 14.5px; line-height: 1.6; color: var(--text-lt);">
+      Machen Sie sich schon vorab ein Bild von unserem Haus. Unsere interaktive 360°-Tour führt Sie durch alle Bereiche.
+    </p>
+    <div class="tour-badge">Live-Tour verfügbar</div>
+  </div>
+  
+  <div class="tour-container">
+    <div class="tour-frame-wrap">
+      <iframe src="https://my.treedis.com/tour/hotel-ariston-sindelfingen" title="Hotel Ariston Sindelfingen – 360° Virtual Tour" allow="fullscreen; xr-spatial-tracking" allowfullscreen loading="lazy"></iframe>
+    </div>
+  </div>
+</section>
+
+<section id="zimmer">
+  <div class="section-head">
+    <p class="eyebrow">Unterkunft</p>
+    <h2>Unsere Zimmer</h2>
+  </div>
+  <div class="zimmer-grid">
+
+    <div class="zimmer-card">
+      <div class="zimmer-img-wrap"><img class="zimmer-img clickable-img" src="https://static.wixstatic.com/media/e5bfc3_7b4815f9531e4a128d153fd43f12afd4~mv2.jpg" alt="Standard Doppelzimmer"></div>
+      <div class="zimmer-body">
+        <h3>Standard Doppelzimmer</h3>
+        <p>Entfliehen Sie dem Alltag mit einem erholsamen Aufenthalt zu zweit in einem französischen Doppelbett.</p>
+        <button class="zimmer-btn" onclick="selectRoom('Standard Doppelzimmer')">Zimmer anfragen</button>
+      </div>
+    </div>
+
+    <div class="zimmer-card">
+      <div class="zimmer-img-wrap"><img class="zimmer-img clickable-img" src="https://static.wixstatic.com/media/e5bfc3_a3c01279292b4d66805aac29f561232e~mv2.jpg" alt="Einzelzimmer"></div>
+      <div class="zimmer-body">
+        <h3>Einzelzimmer</h3>
+        <p>Persönliche Auszeit für sich allein – gemütlich, ruhig und ganz auf Ihre Bedürfnisse ausgerichtet.</p>
+        <button class="zimmer-btn" onclick="selectRoom('Einzelzimmer')">Zimmer anfragen</button>
+      </div>
+    </div>
+
+    <div class="zimmer-card">
+      <div class="zimmer-img-wrap"><img class="zimmer-img clickable-img" src="https://static.wixstatic.com/media/e5bfc3_ff8180bc0430457081a165c22a7d3718~mv2.jpg" alt="Doppelzimmer"></div>
+      <div class="zimmer-body">
+        <h3>Doppelzimmer</h3>
+        <p>Zeitloser Komfort für zwei Personen – hell, gepflegt und mit allem, was Sie brauchen.</p>
+        <button class="zimmer-btn" onclick="selectRoom('Doppelzimmer')">Zimmer anfragen</button>
+      </div>
+    </div>
+
+    <div class="zimmer-card">
+      <div class="zimmer-img-wrap"><img class="zimmer-img clickable-img" src="https://static.wixstatic.com/media/e5bfc3_03e4c2117c1144879acf5b2889c5d705~mv2.jpg" alt="Appartement"></div>
+      <div class="zimmer-body">
+        <h3>Appartement</h3>
+        <p>Mehr Raum, mehr Freiheit – ideal für längere Aufenthalte und Gäste, die ein Zuhause auf Zeit suchen.</p>
+        <button class="zimmer-btn" onclick="selectRoom('Appartement')">Zimmer anfragen</button>
+      </div>
+    </div>
+
+    <div class="zimmer-card">
+      <div class="zimmer-img-wrap"><img class="zimmer-img clickable-img" src="https://static.wixstatic.com/media/e5bfc3_4baf899594844b83a635393be75e0f2b~mv2.jpg" alt="Junior Suite"></div>
+      <div class="zimmer-body">
+        <h3>Junior Suite</h3>
+        <p>Gehobener Komfort und großzügige Raumgestaltung für Gäste, die das Besondere schätzen.</p>
+        <button class="zimmer-btn" onclick="selectRoom('Junior Suite')">Zimmer anfragen</button>
+      </div>
+    </div>
+
+    <div class="zimmer-card" style="background:var(--white);display:flex;align-items:center;justify-content:center;min-height:340px;">
+      <div style="text-align:center;padding:36px;">
+        <p style="font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--warm);margin-bottom:14px;">Alle Preise</p>
+        <p style="font-family:'Libre Baskerville',serif;font-size:20px;color:var(--olive);line-height:1.45;margin-bottom:24px;">Individuelle Preise<br>auf Anfrage</p>
+        <button class="zimmer-btn" onclick="selectRoom('')">Anfrage stellen</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="ueber">
+  <div class="section-head">
+    <p class="eyebrow">Das Hotel</p>
+    <h2>Über Uns</h2>
+  </div>
+  <div class="ueber-wrap">
+    <div class="ueber-img-wrap">
+      <img class="ueber-img clickable-img" src="https://static.wixstatic.com/media/e5bfc3_e3a785ffd8e8424badbdd7dacb8367a6~mv2.jpg" alt="Hotel Ariston">
+    </div>
+    <div class="ueber-content">
+      <p class="ueber-intro">Das Hotel Ariston liegt mitten im Herzen Sindelfingens – direkt an der S-Bahn, am Wettbachplatz und gegenüber dem Daimler-Werk. Ob Geschäftsreisender oder Städtegast: Hier sind Sie immer genau dort, wo Sie sein möchten.</p>
+      <div class="ueber-facts">
+        <div class="fact-item"><span class="fact-label">Check-in</span><span class="fact-value">Ab 15:00 Uhr</span></div>
+        <div class="fact-item"><span class="fact-label">Check-out</span><span class="fact-value">Bis 12:00 Uhr</span></div>
+        <div class="fact-item"><span class="fact-label">Parkplatz</span><span class="fact-value">Kostenlos &amp; privat</span></div>
+        <div class="fact-item"><span class="fact-label">Restaurant</span><span class="fact-value">11:00 – 02:00 Uhr</span></div>
+        <div class="fact-item"><span class="fact-label">Sportarena</span><span class="fact-value">06:00 – 24:00 Uhr</span></div>
+        <div class="fact-item"><span class="fact-label">Autobahn</span><span class="fact-value">5 Minuten</span></div>
+      </div>
+      <div class="ueber-location">
+        <div class="loc-block">
+          <span class="loc-label">Lage</span>
+          <div class="loc-tags">
+            <span class="loc-tag">S-Bahn direkt vor der Tür</span>
+            <span class="loc-tag">Wettbachplatz</span>
+            <span class="loc-tag">Stadtpark in der Nähe</span>
+            <span class="loc-tag">Mitten in der Innenstadt</span>
+          </div>
+        </div>
+        <div class="loc-block">
+          <span class="loc-label">Umgebung</span>
+          <div class="loc-tags">
+            <span class="loc-tag">Gegenüber dem Daimler-Werk</span>
+            <span class="loc-tag">Internationale Küchen</span>
+            <span class="loc-tag">Restaurants &amp; Cafés</span>
+            <span class="loc-tag">Lebendiges Stadtleben</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="kontakt">
+  <div class="kontakt-wrap">
+
+    <div class="kontakt-info">
+      <p class="eyebrow">Kontakt</p>
+      <h2>Wir freuen uns auf Ihre Anfrage</h2>
+      <div class="kd-list">
+        <div class="kd-item">
+          <span class="kd-label">Adresse</span>
+          <span class="kd-value">Hanns-Martin-Schleyer-Straße 9<br>71069 Sindelfingen</span>
+        </div>
+        <div class="kd-item">
+          <span class="kd-label">E-Mail</span>
+          <span class="kd-value"><a href="mailto:Hotel-Ariston@gmx.de">Hotel-Ariston@gmx.de</a></span>
+        </div>
+        <div class="kd-item">
+          <span class="kd-label">Telefon</span>
+          <span class="kd-value"><a href="tel:+491768342673">+49 (0) 176 83426731</a></span>
+        </div>
+        <div class="kd-item">
+          <span class="kd-label">Check-in / Check-out</span>
+          <span class="kd-value">Ab 15:00 Uhr &nbsp;/&nbsp; Bis 12:00 Uhr</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="booking-form">
+      <div class="form-steps">
+        <div class="step-tab active" data-step="1">① Zimmer &amp; Datum</div>
+        <div class="step-tab" data-step="2">② Kontaktdaten</div>
+        <div class="step-tab" data-step="3">③ Bestätigung</div>
+      </div>
+
+      <div class="form-section active" id="step1">
+        <div class="fg">
+          <label>Zimmerwahl</label>
+          <div class="room-chips" id="room-chips">
+            <button class="room-chip" data-room="Standard Doppelzimmer">Standard Doppelzimmer</button>
+            <button class="room-chip" data-room="Einzelzimmer">Einzelzimmer</button>
+            <button class="room-chip" data-room="Doppelzimmer">Doppelzimmer</button>
+            <button class="room-chip" data-room="Appartement">Appartement</button>
+            <button class="room-chip" data-room="Junior Suite">Junior Suite</button>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="fg">
+            <label for="f-anreise">Anreise</label>
+            <input type="text" id="f-anreise" placeholder="TT.MM.JJJJ" readonly>
+          </div>
+          <div class="fg">
+            <label for="f-abreise">Abreise</label>
+            <input type="text" id="f-abreise" placeholder="TT.MM.JJJJ" readonly>
+          </div>
+        </div>
+        <div class="fg">
+          <label>Gäste</label>
+          <div class="guest-counter">
+            <button class="gc-btn" id="gc-minus">−</button>
+            <span class="gc-val" id="gc-val">1</span>
+            <button class="gc-btn" id="gc-plus">+</button>
+            <span class="gc-label">Person(en)</span>
+          </div>
+        </div>
+        <div class="form-nav">
+          <span class="step-indicator">Schritt 1 von 3</span>
+          <button class="btn-next" id="btn-next1">Weiter →</button>
+        </div>
+      </div>
+
+      <div class="form-section" id="step2">
+        <div class="form-row">
+          <div class="fg">
+            <label for="f-vorname">Vorname</label>
+            <input type="text" id="f-vorname" placeholder="Max">
+          </div>
+          <div class="fg">
+            <label for="f-nachname">Nachname</label>
+            <input type="text" id="f-nachname" placeholder="Mustermann">
+          </div>
+        </div>
+        <div class="fg">
+          <label for="f-email">E-Mail *</label>
+          <input type="email" id="f-email" placeholder="ihre@email.de">
+        </div>
+        <div class="fg">
+          <label for="f-nachricht">Weitere Wünsche (optional)</label>
+          <textarea id="f-nachricht" placeholder="Frühstück, Kinderbett, besondere Anlässe..."></textarea>
+        </div>
+        <div class="form-nav">
+          <button class="btn-back" id="btn-back2">← Zurück</button>
+          <span class="step-indicator">Schritt 2 von 3</span>
+          <button class="btn-next" id="btn-next2">Weiter →</button>
+        </div>
+      </div>
+
+      <div class="form-section" id="step3">
+        <div id="summary-box" style="background:rgba(244,241,234,0.07);border:1px solid rgba(244,241,234,0.15);padding:24px;display:flex;flex-direction:column;gap:12px;"></div>
+        <div class="form-nav">
+          <button class="btn-back" id="btn-back3">← Zurück</button>
+          <span class="step-indicator">Schritt 3 von 3</span>
+          <button class="btn-send" id="btn-send">Anfrage absenden</button>
+        </div>
+      </div>
+
+    </div></div>
+</section>
+
+<footer id="footer">
+  <div class="footer-logo-bar">
+    <span class="footer-logo-text">Hotel Ariston</span>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-social">
+      <a href="https://www.facebook.com/DEIN-PROFIL" target="_blank" aria-label="Facebook">
+        <img src="https://static.wixstatic.com/media/11062b_366f7fdbcafc4effaeddb0dba92014c1~mv2.png" alt="Facebook">
+      </a>
+      <a href="https://www.instagram.com/DEIN-PROFIL" target="_blank" aria-label="Instagram">
+        <img src="https://static.wixstatic.com/media/11062b_681c6c82d3344ca09a024b18998e0f66~mv2.png" alt="Instagram">
+      </a>
+      <a href="https://x.com/DEIN-PROFIL" target="_blank" aria-label="X">
+        <img src="https://static.wixstatic.com/media/11062b_60c5fc4a3ecd49f2a697206b09eeace1~mv2.png" alt="X">
+      </a>
+      <a href="https://www.tiktok.com/@DEIN-PROFIL" target="_blank" aria-label="TikTok">
+        <img src="https://static.wixstatic.com/media/2e2a49_aaa72a7b672b4ade9ee8643cee872256~mv2.png" alt="TikTok">
+      </a>
+    </div>
+    <div class="footer-links">
+      <a href="datenschutz.html" onclick="openIframeModal('datenschutz.html', event)">Datenschutzerklärung</a>
+      <a href="impressum.html" onclick="openIframeModal('impressum.html', event)">Impressum</a>
+    </div>
+    <span class="footer-copy">© 2025 Hotel Ariston</span>
+  </div>
+</footer>
+
+<div id="toast">✓ &nbsp;Vielen Dank! Ihre Anfrage wurde erfolgreich gesendet.</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.js"></script>
+<script>
+// ── Pop-up Modal Logik ─────────────────────────────────────
+
+// Bild-Pop-ups öffnen/schließen
+function openImageModal(src) {
+  document.getElementById('image-modal').style.display = "block";
+  document.getElementById('modal-img').src = src;
+}
+function closeImageModal() {
+  document.getElementById('image-modal').style.display = "none";
+}
+document.querySelectorAll('.clickable-img').forEach(img => {
+  img.addEventListener('click', function() {
+    openImageModal(this.src);
+  });
+});
+
+// Iframe-Pop-ups (Datenschutz/Impressum) öffnen/schließen
+function openIframeModal(src, event) {
+  event.preventDefault(); // Verhindert normales Weiterleiten
+  document.getElementById('iframe-modal').style.display = "block";
+  document.getElementById('modal-iframe').src = src;
+}
+function closeIframeModal() {
+  document.getElementById('iframe-modal').style.display = "none";
+  document.getElementById('modal-iframe').src = "";
+}
+
+// Schließt Modals auch beim Klick auf den Hintergrund
+window.onclick = function(event) {
+  const imgModal = document.getElementById('image-modal');
+  const iframeModal = document.getElementById('iframe-modal');
+  if (event.target == imgModal) { closeImageModal(); }
+  if (event.target == iframeModal) { closeIframeModal(); }
+}
+
+// ── Navbar scroll ──────────────────────────────────────────
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+});
+
+// ── Date pickers ───────────────────────────────────────────
+const today = new Date();
+const fpAnreise = flatpickr('#f-anreise', {
+  locale: { firstDayOfWeek: 1 },
+  dateFormat: 'd.m.Y',
+  minDate: 'today',
+  onChange: ([d]) => {
+    const next = new Date(d); next.setDate(next.getDate() + 1);
+    fpAbreise.set('minDate', next);
+    if (!fpAbreise.selectedDates[0] || fpAbreise.selectedDates[0] <= d) {
+      fpAbreise.setDate(next);
+    }
+  }
+});
+const fpAbreise = flatpickr('#f-abreise', {
+  locale: { firstDayOfWeek: 1 },
+  dateFormat: 'd.m.Y',
+  minDate: new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1)
+});
+
+// ── Guest counter ─────────────────────────────────────────
+let guests = 1;
+const gcVal = document.getElementById('gc-val');
+document.getElementById('gc-minus').addEventListener('click', () => {
+  if (guests > 1) { guests--; gcVal.textContent = guests; }
+});
+document.getElementById('gc-plus').addEventListener('click', () => {
+  if (guests < 10) { guests++; gcVal.textContent = guests; }
+});
+
+// ── Room chips ────────────────────────────────────────────
+let selectedRoom = '';
+document.querySelectorAll('.room-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('.room-chip').forEach(c => c.classList.remove('selected'));
+    chip.classList.add('selected');
+    selectedRoom = chip.dataset.room;
+  });
+});
+
+function selectRoom(room) {
+  selectedRoom = room;
+  document.querySelectorAll('.room-chip').forEach(c => {
+    c.classList.toggle('selected', c.dataset.room === room);
+  });
+  document.getElementById('kontakt').scrollIntoView({ behavior: 'smooth' });
+}
+
+// ── Steps ─────────────────────────────────────────────────
+function showStep(n) {
+  document.querySelectorAll('.form-section').forEach((s, i) => {
+    s.classList.toggle('active', i + 1 === n);
+  });
+  document.querySelectorAll('.step-tab').forEach((t, i) => {
+    t.classList.toggle('active', i + 1 === n);
+  });
+  if (n === 3) buildSummary();
+}
+
+document.getElementById('btn-next1').addEventListener('click', () => {
+  showStep(2);
+});
+document.getElementById('btn-back2').addEventListener('click', () => showStep(1));
+document.getElementById('btn-next2').addEventListener('click', () => {
+  const email = document.getElementById('f-email').value.trim();
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    alert('Bitte geben Sie eine gültige E-Mail-Adresse ein.');
+    document.getElementById('f-email').focus();
+    return;
+  }
+  showStep(3);
+});
+document.getElementById('btn-back3').addEventListener('click', () => showStep(2));
+
+function buildSummary() {
+  const box = document.getElementById('summary-box');
+  const anreise = document.getElementById('f-anreise').value || '–';
+  const abreise = document.getElementById('f-abreise').value || '–';
+  const vorname = document.getElementById('f-vorname').value || '';
+  const nachname = document.getElementById('f-nachname').value || '';
+  const email = document.getElementById('f-email').value;
+  const rows = [
+    ['Zimmer', selectedRoom || 'Nicht gewählt'],
+    ['Anreise', anreise],
+    ['Abreise', abreise],
+    ['Gäste', guests + ' Person' + (guests > 1 ? 'en' : '')],
+    ['Name', [vorname, nachname].filter(Boolean).join(' ') || '–'],
+    ['E-Mail', email],
+  ];
+  box.innerHTML = rows.map(([l, v]) => `
+    <div style="display:flex;gap:16px;align-items:baseline;border-bottom:1px solid rgba(244,241,234,0.08);padding-bottom:10px;">
+      <span style="font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(244,241,234,0.38);min-width:80px;">${l}</span>
+      <span style="font-size:14px;color:var(--cream);">${v}</span>
+    </div>
+  `).join('');
+}
+
+// ── Send via Formspree ────────────────────────────────────
+const toast = document.getElementById('toast');
+function showToast() {
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 4500);
+}
+
+document.getElementById('btn-send').addEventListener('click', async () => {
+  const btn = document.getElementById('btn-send');
+  const vorname   = document.getElementById('f-vorname').value.trim();
+  const nachname  = document.getElementById('f-nachname').value.trim();
+  const email     = document.getElementById('f-email').value.trim();
+  const nachricht = document.getElementById('f-nachricht').value.trim();
+  const anreise   = document.getElementById('f-anreise').value;
+  const abreise   = document.getElementById('f-abreise').value;
+
+  btn.disabled = true; btn.textContent = 'Wird gesendet …';
+  try {
+    const res = await fetch('https://formspree.io/f/xgoqklry', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        Zimmer: selectedRoom || 'Keine Auswahl',
+        Anreise: anreise || 'Nicht angegeben',
+        Abreise: abreise || 'Nicht angegeben',
+        Gaeste: guests,
+        Vorname: vorname, Nachname: nachname,
+        Name: [vorname, nachname].filter(Boolean).join(' ') || 'Kein Name',
+        Email: email,
+        Nachricht: nachricht || '–',
+        _subject: `Zimmeranfrage: ${selectedRoom || 'Allgemein'} – Hotel Ariston`
+      })
+    });
+    if (res.ok) {
+      showToast();
+      showStep(1);
+      document.querySelectorAll('.room-chip').forEach(c => c.classList.remove('selected'));
+      selectedRoom = ''; guests = 1; gcVal.textContent = 1;
+      fpAnreise.clear(); fpAbreise.clear();
+      ['f-vorname','f-nachname','f-email','f-nachricht'].forEach(id => {
+        document.getElementById(id).value = '';
+      });
+    } else {
+      alert('Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.');
+    }
+  } catch {
+    alert('Verbindungsfehler. Bitte prüfen Sie Ihre Internetverbindung.');
+  } finally {
+    btn.disabled = false; btn.textContent = 'Anfrage absenden';
+  }
+});
+</script>
+</body>
+</html>
